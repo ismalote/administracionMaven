@@ -46,6 +46,7 @@ public class ReclamoDAO {
 			Reclamo reclamo = new Reclamo(persona, edificio, UbicacionReclamo.valueOf(reclamoEntity.getUbicacion()),
 					reclamoEntity.getDescripcion(), (unidad != null) ? unidad : null,
 					EstadoReclamo.valueOf(reclamoEntity.getEstado()), reclamoEntity.getImagen());
+			reclamo.setIdReclamo(reclamoEntity.getId());
 			return reclamo;
 		} else
 			throw new ReclamoException("No se pudo recuperar los reclamos.");
