@@ -92,7 +92,7 @@ public class Reclamo {
 
 	public ReclamoView toView() {
 		return new ReclamoView(idReclamo, persona.toView(), edificio.toView(), ubicacion.toString(), descripcion,
-				(unidad != null) ? unidad.toView() : null, estado.toString());
+				(unidad != null) ? unidad.toView() : null, estado.toString(), imagen);
 	}
 
 	public ReclamoEntity toEntity() {

@@ -182,7 +182,7 @@ public class Controlador {
 
 	public ReclamoView getReclamosById(int id)
 			throws EdificioException, UnidadException, ReclamoException, PersonaException {
-		return ReclamoDAO.getInstancia().getReclamoById(id).toView();
+		return ReclamoDAO.getInstancia().findByID(id).toView();
 	}
 
 	public List<ReclamoView> getReclamosByEdificio(int idEdificio)

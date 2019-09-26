@@ -221,7 +221,7 @@ public class ReclamoDAO {
 		return resultado;
 	}
 
-	public Reclamo getReclamoById(int id)
+	public Reclamo findByID(int id)
 			throws EdificioException, UnidadException, ReclamoException, PersonaException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session s = sf.getCurrentSession();
@@ -231,11 +231,11 @@ public class ReclamoDAO {
 		return this.toNegocio(reclamoEntity);
 	}
 
-	public void updateReclamo(Reclamo entity) {
+	public void updateReclamo(Reclamo reclamo) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session s = sf.getCurrentSession();
 		s.beginTransaction();
-		s.merge(entity);
+		s.merge(reclamo.toEntity());
 		s.getTransaction().commit();
 	}
 

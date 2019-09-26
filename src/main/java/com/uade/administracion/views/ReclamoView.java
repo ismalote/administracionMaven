@@ -15,7 +15,7 @@ public class ReclamoView {
 	}
 
 	public ReclamoView(int idReclamo, PersonaView personaView, EdificioView edificioView, String ubicacion,
-			String descripcion, UnidadView unidadView, String estado) {
+			String descripcion, UnidadView unidadView, String estado, byte[] imagen) {
 		this.idReclamo = idReclamo;
 		this.personaView = personaView;
 		this.edificioView = edificioView;
@@ -23,6 +23,7 @@ public class ReclamoView {
 		this.descripcion = descripcion;
 		this.unidadView = unidadView;
 		this.estado = estado;
+		this.imagen = imagen;
 	}
 
 	public int getIdReclamo() {
