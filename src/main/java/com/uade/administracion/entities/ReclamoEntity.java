@@ -34,13 +34,13 @@ public class ReclamoEntity {
 	private String ubicacion;
 	private String descripcion;
 	private String estado;
-	private byte[] imagen;
+	private String imagenes;
 
 	public ReclamoEntity() {
 	}
 
 	public ReclamoEntity(Integer id, PersonaEntity persona, EdificioEntity edificio, UnidadEntity unidad,
-			UbicacionReclamo ubicacion, String descripcion, EstadoReclamo estado, byte[] imagen) {
+			UbicacionReclamo ubicacion, String descripcion, EstadoReclamo estado, String imagenes) {
 		super();
 		this.idReclamo = id;
 		this.persona = persona;
@@ -49,7 +49,7 @@ public class ReclamoEntity {
 		this.ubicacion = ubicacion.toString();
 		this.descripcion = descripcion;
 		this.estado = estado.toString();
-		this.imagen = imagen;
+		this.imagenes = imagenes;
 	}
 
 	public Integer getId() {
@@ -84,8 +84,8 @@ public class ReclamoEntity {
 		return estado;
 	}
 
-	public byte[] getImagen() {
-		return imagen;
+	public String getImagenes() {
+		return imagenes;
 	}
 
 }

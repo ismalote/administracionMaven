@@ -13,17 +13,17 @@ public class Reclamo {
 	private String descripcion;
 	private Unidad unidad;
 	private EstadoReclamo estado;
-	private byte[] imagen;
+	private String imagenes;
 
 	public Reclamo(Persona persona, Edificio edificio, UbicacionReclamo ubicacion, String descripcion, Unidad unidad,
-			EstadoReclamo estado, byte[] imagen) {
+			EstadoReclamo estado, String imagenes) {
 		this.persona = persona;
 		this.edificio = edificio;
 		this.ubicacion = ubicacion;
 		this.descripcion = descripcion;
 		this.unidad = unidad;
 		this.estado = estado;
-		this.imagen = imagen;
+		this.imagenes = imagenes;
 	}
 
 	public void setIdReclamo(int idReclamo) {
@@ -82,26 +82,26 @@ public class Reclamo {
 		this.estado = estado;
 	}
 
-	public byte[] getImagen() {
-		return imagen;
+	public String getImagenes() {
+		return imagenes;
 	}
 
-	public void setImagen(byte[] imagen) {
-		this.imagen = imagen;
+	public void setImagenes(String imagenes) {
+		this.imagenes = imagenes;
 	}
 
 	public ReclamoView toView() {
 		return new ReclamoView(idReclamo, persona.toView(), edificio.toView(), ubicacion.toString(), descripcion,
-				(unidad != null) ? unidad.toView() : null, estado.toString(), imagen);
+				(unidad != null) ? unidad.toView() : null, estado.toString(), imagenes);
 	}
 
 	public ReclamoEntity toEntity() {
 		if (unidad != null) {
 			return new ReclamoEntity(this.idReclamo, this.persona.toEntity(), this.edificio.toEntity(),
-					this.unidad.toEntity(), this.ubicacion, this.descripcion, this.estado, this.imagen);
+					this.unidad.toEntity(), this.ubicacion, this.descripcion, this.estado, this.imagenes);
 		} else {
 			return new ReclamoEntity(this.idReclamo, this.persona.toEntity(), this.edificio.toEntity(), null,
-					this.ubicacion, this.descripcion, this.estado, this.imagen);
+					this.ubicacion, this.descripcion, this.estado, this.imagenes);
 		}
 
 	}

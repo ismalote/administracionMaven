@@ -9,13 +9,13 @@ public class ReclamoView {
 	private String descripcion;
 	private UnidadView unidadView;
 	private String estado;
-	private byte[] imagen;
+	private String imagenes;
 
 	public ReclamoView() {
 	}
 
 	public ReclamoView(int idReclamo, PersonaView personaView, EdificioView edificioView, String ubicacion,
-			String descripcion, UnidadView unidadView, String estado, byte[] imagen) {
+			String descripcion, UnidadView unidadView, String estado, String imagenes) {
 		this.idReclamo = idReclamo;
 		this.personaView = personaView;
 		this.edificioView = edificioView;
@@ -23,7 +23,7 @@ public class ReclamoView {
 		this.descripcion = descripcion;
 		this.unidadView = unidadView;
 		this.estado = estado;
-		this.imagen = imagen;
+		this.imagenes = imagenes;
 	}
 
 	public int getIdReclamo() {
@@ -82,12 +82,12 @@ public class ReclamoView {
 		this.estado = estado;
 	}
 
-	public byte[] getImagen() {
-		return imagen;
+	public String getImagenes() {
+		return imagenes;
 	}
 
-	public void setImagen(byte[] imagen) {
-		this.imagen = imagen;
+	public void setImagenes(String imagenes) {
+		this.imagenes = imagenes;
 	}
 
 	public String toString() {

@@ -45,7 +45,7 @@ public class ReclamoDAO {
 			Edificio edificio = EdificioDAO.getInstancia().toNegocio(reclamoEntity.getEdificio());
 			Reclamo reclamo = new Reclamo(persona, edificio, UbicacionReclamo.valueOf(reclamoEntity.getUbicacion()),
 					reclamoEntity.getDescripcion(), (unidad != null) ? unidad : null,
-					EstadoReclamo.valueOf(reclamoEntity.getEstado()), reclamoEntity.getImagen());
+					EstadoReclamo.valueOf(reclamoEntity.getEstado()), reclamoEntity.getImagenes());
 			reclamo.setIdReclamo(reclamoEntity.getId());
 			return reclamo;
 		} else
@@ -55,7 +55,7 @@ public class ReclamoDAO {
 	ReclamoEntity toEntity(Reclamo reclamo) {
 		return new ReclamoEntity(reclamo.getIdReclamo(), reclamo.getPersona().toEntity(),
 				reclamo.getEdificio().toEntity(), reclamo.getUnidad().toEntity(), reclamo.getUbicacion(),
-				reclamo.getDescripcion(), reclamo.getEstado(), reclamo.getImagen());
+				reclamo.getDescripcion(), reclamo.getEstado(), reclamo.getImagenes());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -221,8 +221,7 @@ public class ReclamoDAO {
 		return resultado;
 	}
 
-	public Reclamo findByID(int id)
-			throws EdificioException, UnidadException, ReclamoException, PersonaException {
+	public Reclamo findByID(int id) throws EdificioException, UnidadException, ReclamoException, PersonaException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session s = sf.getCurrentSession();
 		s.beginTransaction();
