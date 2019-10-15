@@ -1,14 +1,8 @@
 package com.uade.administracion.controlador;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Set;
-
-import javax.imageio.ImageIO;
 
 import com.uade.administracion.daos.EdificioDAO;
 import com.uade.administracion.daos.PersonaDAO;
@@ -31,7 +25,6 @@ import com.uade.administracion.views.UnidadView;
 
 public class Controlador {
 
-	private static final String UPLOAD_FILE_PATH = "D:\\Programacion\\react\\images\\";
 	private static Controlador instancia;
 
 	private Controlador() {
@@ -136,7 +129,7 @@ public class Controlador {
 		if (ubicacion.equals(UbicacionReclamo.PARTE_COMUN)) {
 			if (isDuenioDeEdificio(edificio, documento) || isInquilinoDeEdificio(edificio, documento)) {
 				reclamo = new Reclamo(persona, edificio, UbicacionReclamo.PARTE_COMUN, descripcion, null,
-						EstadoReclamo.NUEVO, getFilePath(imagenes));
+						EstadoReclamo.NUEVO, imagenes);
 				reclamo = reclamo.save();
 			} else {
 				throw new PersonaException("La persona no esta relacionada al edificio.");
@@ -146,7 +139,7 @@ public class Controlador {
 			if (unidad.estaHabitado()) {
 				if (isInquilinoUnidad(unidad, documento)) {
 					reclamo = new Reclamo(persona, edificio, UbicacionReclamo.UNIDAD_PARTICULAR, descripcion, unidad,
-							EstadoReclamo.NUEVO, getFilePath(imagenes));
+							EstadoReclamo.NUEVO, imagenes);
 				} else {
 					throw new PersonaException(
 							"El departamento esta habitado pero la persona que hace el reclamo no es la inquilina.");
@@ -154,7 +147,7 @@ public class Controlador {
 			} else {
 				if (isDuenioUnidad(unidad, documento)) {
 					reclamo = new Reclamo(persona, edificio, UbicacionReclamo.UNIDAD_PARTICULAR, descripcion, unidad,
-							EstadoReclamo.NUEVO, getFilePath(imagenes));
+							EstadoReclamo.NUEVO, imagenes);
 				} else {
 					throw new PersonaException(
 							"El departamento no esta habitado pero la persona que hace el reclamo no es la duenia.");
@@ -163,10 +156,6 @@ public class Controlador {
 			reclamo = reclamo.save();
 		}
 		return reclamo.toView();
-	}
-
-	private String getFilePath(String imagenes) {
-		return UPLOAD_FILE_PATH + imagenes;
 	}
 
 	/**
@@ -186,25 +175,9 @@ public class Controlador {
 		List<ReclamoView> resultado = new ArrayList<ReclamoView>();
 		List<Reclamo> reclamos = ReclamoDAO.getInstancia().getAll();
 		for (Reclamo reclamo : reclamos) {
-			reclamo.setImagenes(getImagen(reclamo.getImagenes()));
 			resultado.add(reclamo.toView());
 		}
 		return resultado;
-	}
-
-	private String getImagen(String path) {
-		try {
-			File file = new File(path);
-			BufferedImage img = ImageIO.read(file);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(img, "jpg", baos);
-			baos.flush();
-			byte[] imageInByte = baos.toByteArray();
-			return Base64.getEncoder().encodeToString(imageInByte);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	public ReclamoView getReclamosById(int id)
@@ -217,7 +190,6 @@ public class Controlador {
 		List<ReclamoView> resultado = new ArrayList<ReclamoView>();
 		List<Reclamo> reclamos = ReclamoDAO.getInstancia().getReclamosByCodigoEdificio(idEdificio);
 		for (Reclamo reclamo : reclamos) {
-			reclamo.setImagenes(getImagen(reclamo.getImagenes()));
 			resultado.add(reclamo.toView());
 		}
 		return resultado;
@@ -228,7 +200,6 @@ public class Controlador {
 		List<ReclamoView> resultado = new ArrayList<ReclamoView>();
 		List<Reclamo> reclamos = ReclamoDAO.getInstancia().getReclamosByIdentificadorUnidad(idUnidad);
 		for (Reclamo reclamo : reclamos) {
-			reclamo.setImagenes(getImagen(reclamo.getImagenes()));
 			resultado.add(reclamo.toView());
 		}
 		return resultado;
@@ -239,7 +210,6 @@ public class Controlador {
 		List<ReclamoView> resultado = new ArrayList<ReclamoView>();
 		List<Reclamo> reclamos = ReclamoDAO.getInstancia().getReclamosByPersona(documento);
 		for (Reclamo reclamo : reclamos) {
-			reclamo.setImagenes(getImagen(reclamo.getImagenes()));
 			resultado.add(reclamo.toView());
 		}
 		return resultado;
