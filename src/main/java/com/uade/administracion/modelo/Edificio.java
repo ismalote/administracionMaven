@@ -2,6 +2,7 @@ package com.uade.administracion.modelo;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.uade.administracion.daos.UnidadDAO;
@@ -119,6 +120,23 @@ public class Edificio {
 
 	public EdificioEntity toEntity() {
 		return new EdificioEntity(this.codigo, this.nombre, this.direccion);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Edificio)) {
+			return false;
+		}
+		Edificio other = (Edificio) obj;
+		return codigo == other.codigo;
 	}
 
 }

@@ -7,9 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.uade.administracion.entities.InquilinoEntity;
+import com.uade.administracion.exceptions.EdificioException;
 import com.uade.administracion.exceptions.PersonaException;
+import com.uade.administracion.exceptions.UnidadException;
 import com.uade.administracion.hibernate.HibernateUtil;
 import com.uade.administracion.modelo.Persona;
+import com.uade.administracion.modelo.Unidad;
 
 public class InquilinoDAO {
 
@@ -59,5 +62,23 @@ public class InquilinoDAO {
 		s.beginTransaction();
 		s.save(inquilino);
 		s.getTransaction().commit();
+	}
+
+	public List<Unidad> getUnidadesByInquilino(String documento) throws EdificioException, UnidadException {
+		List<Unidad> resultado = new ArrayList<Unidad>();
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session s = sf.getCurrentSession();
+		s.beginTransaction();
+		@SuppressWarnings("unchecked")
+		List<InquilinoEntity> inquilinos = (List<InquilinoEntity>) s
+				.createQuery("from InquilinoEntity ie where ie.persona.documento = ?").setString(0, documento).list();
+		s.getTransaction().commit();
+		if (inquilinos != null) {
+			for (InquilinoEntity i : inquilinos)
+				resultado.add(UnidadDAO.getInstancia().toNegocio(i.getUnidad()));
+			return resultado;
+		} else
+			throw new EdificioException("No se pudo recuperar los edificios por duenio.");
 	}
 }

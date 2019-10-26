@@ -7,9 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.uade.administracion.entities.DuenioEntity;
+import com.uade.administracion.exceptions.EdificioException;
 import com.uade.administracion.exceptions.PersonaException;
+import com.uade.administracion.exceptions.UnidadException;
 import com.uade.administracion.hibernate.HibernateUtil;
 import com.uade.administracion.modelo.Persona;
+import com.uade.administracion.modelo.Unidad;
 
 public class DuenioDAO {
 
@@ -40,7 +43,6 @@ public class DuenioDAO {
 			return resultado;
 		} else
 			throw new PersonaException("No se pudo recuperar los duenios");
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,7 +50,7 @@ public class DuenioDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session s = sf.getCurrentSession();
 		s.beginTransaction();
-		List<DuenioEntity> duenio = (List<DuenioEntity>) s.createQuery("from DuenioEntity de where de.documento = ?")
+		List<DuenioEntity> duenio = (List<DuenioEntity>) s.createQuery("from DuenioEntity de where de.persona.documento = ?")
 				.setString(0, documento).list();
 		s.getTransaction().commit();
 		return !duenio.isEmpty();
@@ -60,6 +62,25 @@ public class DuenioDAO {
 		s.beginTransaction();
 		s.save(duenio);
 		s.getTransaction().commit();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Unidad> getUnidadesByDuenio(String documento) throws EdificioException, UnidadException {
+		List<Unidad> resultado = new ArrayList<Unidad>();
+
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session s = sf.getCurrentSession();
+		s.beginTransaction();
+		List<DuenioEntity> duenios = (List<DuenioEntity>) s.createQuery("from DuenioEntity de where de.persona.documento = ?")
+				.setString(0, documento).list();
+		s.getTransaction().commit();
+		if (duenios != null) {
+			for (DuenioEntity d : duenios)
+				resultado.add(UnidadDAO.getInstancia().toNegocio(d.getUnidad()));
+			return resultado;
+		} else
+			throw new EdificioException("No se pudo recuperar los edificios por duenio.");
+
 	}
 
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.uade.administracion.daos.DuenioDAO;
 import com.uade.administracion.daos.EdificioDAO;
+import com.uade.administracion.daos.InquilinoDAO;
 import com.uade.administracion.daos.PersonaDAO;
 import com.uade.administracion.daos.ReclamoDAO;
 import com.uade.administracion.daos.UnidadDAO;
@@ -212,6 +214,63 @@ public class Controlador {
 		for (Reclamo reclamo : reclamos) {
 			resultado.add(reclamo.toView());
 		}
+		return resultado;
+	}
+
+	public List<UnidadView> unidadesPorPersona(String documento) throws EdificioException, UnidadException {
+		List<UnidadView> resultado = new ArrayList<UnidadView>();
+
+		List<Unidad> unidadesByDuenio = DuenioDAO.getInstancia().getUnidadesByDuenio(documento);
+		List<Unidad> unidadesByInquilino = InquilinoDAO.getInstancia().getUnidadesByInquilino(documento);
+
+		for (Unidad unidadDuenio : unidadesByDuenio) {
+			resultado.add(unidadDuenio.toView());
+		}
+
+		for (Unidad unidadInquilino : unidadesByInquilino) {
+			resultado.add(unidadInquilino.toView());
+		}
+
+		return resultado;
+	}
+	
+	public List<UnidadView> unidadesPorDuenio(String documento) throws EdificioException, UnidadException {
+		List<UnidadView> resultado = new ArrayList<UnidadView>();
+
+		List<Unidad> unidadesByDuenio = DuenioDAO.getInstancia().getUnidadesByDuenio(documento);
+
+		for (Unidad unidadDuenio : unidadesByDuenio) {
+			resultado.add(unidadDuenio.toView());
+		}
+
+		return resultado;
+	}
+	
+	public List<UnidadView> unidadesPorInquilino(String documento) throws EdificioException, UnidadException {
+		List<UnidadView> resultado = new ArrayList<UnidadView>();
+
+		List<Unidad> unidadesByInquilino = InquilinoDAO.getInstancia().getUnidadesByInquilino(documento);
+
+		for (Unidad unidadInquilino : unidadesByInquilino) {
+			resultado.add(unidadInquilino.toView());
+		}
+
+		return resultado;
+	}
+	
+	public List<PersonaView> getPersonas() throws PersonaException {
+		List<PersonaView> resultado = new ArrayList<PersonaView>();
+		List<Persona> personas = PersonaDAO.getInstancia().getAll();
+		for (Persona persona : personas)
+			resultado.add(persona.toView());
+		return resultado;
+	}
+	
+	public List<UnidadView> getUnidades() throws PersonaException, UnidadException, EdificioException {
+		List<UnidadView> resultado = new ArrayList<UnidadView>();
+		List<Unidad> unidades = UnidadDAO.getInstancia().getAll();
+		for (Unidad unidad : unidades)
+			resultado.add(unidad.toView());
 		return resultado;
 	}
 
